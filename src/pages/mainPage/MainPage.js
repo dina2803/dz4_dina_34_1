@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, Container, Form, Row, Col} from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSelector, useDispatch} from "react-redux";
 import { setName, setUsername, setEmail } from "../../store/AuthSlice";
 import {addUserAction} from "../../reducer/actions";
@@ -11,10 +12,10 @@ function MainPage() {
         const { name, value } = event.target
         switch (name) {
             case 'name':
-                dispatch(setName(value.replace(/[^a-zA-Z]/g, '')))
+                dispatch(setName(value))
                 break
             case 'username':
-                dispatch(setUsername(value.replace(/[^a-zA-Z]/g, '')))
+                dispatch(setUsername(value))
                 break
             case 'email':
                 dispatch(setEmail(value))
@@ -24,18 +25,18 @@ function MainPage() {
     }
     const addUser = (event) => {
         event.preventDefault()
-        if (!/^[a-zA-Z]+$/.test(name)) {
-            alert('Имя должно содержать только буквы, попробуйте еще раз')
-            return
-        } if (!/^[a-zA-Z]+$/.test(username)) {
-            alert('Имя пользователя должно содержать только буквы, попробуйте еще раз')
-            return
-        } if (!email.includes('@gmail.com')) {
-            alert('Почтовый адрес должен содержать @gmail.com, попробуйте еще раз')
-            return;
+        if (/\d+/.test(name)) {
+            console.log(name)
+            return  alert('Имя должно содержать только буквы, попробуйте еще раз')
+        } else if (/\d+/.test(username)) {
+            console.log(username)
+            return alert('Имя пользователя должно содержать только буквы, попробуйте еще раз')
+        } else if (!email.includes('@gmail.com')) {
+            return alert('Почтовый адрес должен содержать @gmail.com, попробуйте еще раз')
+        } else {
+            const user = { name, username, email }
+            dispatch(addUserAction(user))
         }
-        const user = { name, username, email}
-        dispatch(addUserAction(user))
     }
 
     return (
